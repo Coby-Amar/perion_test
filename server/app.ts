@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 
 dotenv.config()
 
-app.use(cors({ allowedHeaders: 'Content-Type', origin: ['localhost:3000'] }));
+app.use(cors({ allowedHeaders: 'Content-Type', origin: ['http://localhost:3000'] }));
 app.options('*', cors());  // enable pre-flight
 app.use(json())
 
