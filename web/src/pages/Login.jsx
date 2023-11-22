@@ -1,9 +1,9 @@
 import { Button, Paper, TextField, Typography } from '@mui/material';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
-import { httpClient } from '../httpClient';
-import { useNavigate } from 'react-router-dom';
 import { GlobalState } from '..';
+import { useNavigate } from 'react-router-dom';
+import { loginApi } from '../services/api';
 
 export function Login() {
     const navigate = useNavigate();
@@ -27,19 +27,11 @@ export function Login() {
     const onLogin = useCallback(async (event) => {
         event.preventDefault()
         const email = event.target.email.value
-        try {
-            const { data } = await httpClient.post("login", {
-                ...coordinates,
-                email,
-            })
-            localStorage.setItem("email", email)
-            state.email = email
-            state.weatherData = data
-            navigate("/home")
-        } catch (error) {
-            console.log(error)
-            return
-        }
+        const data = await loginApi(coordinates, email)
+        localStorage.setItem("email", email)
+        state.email = email
+        state.weatherData = data
+        navigate("/home")
     }, [coordinates, navigate, state])
     return (
         <Paper style={{
